@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+
+* {
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body {
+  background: linear-gradient(135deg, #ffe8f0, #ffcce6);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  padding: 20px;
+}
+.container {
+            width: 100%;
+            max-width: 900px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.3);
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.5s ease;
+        }
+        .container:hover { transform: translateY(-5px); }
+
+
+        .hearts-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            color: rgba(255, 105, 180, 0.6);
+            animation: float 6s ease-in-out infinite;
+            z-index: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-25px) rotate(20deg); opacity: 1; }
+            100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+        }
+
+
+        .welcome-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #ffcce6, #ff99cc);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: transform 1s ease, opacity 1s ease;
+        }
+        .welcome-screen.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+
+        .password-form {
+            background-color: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            transform: translateZ(20px);
+            border: 3px solid #ffcce6;
+        }
+        .password-form h2 {
+            color: #ff66b2;
+            margin-bottom: 25px;
+            font-size: 32px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .password-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 3px solid #ffcce6;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            font-size: 18px;
+            text-align: center;
+            transition: all 0.3s;
+            background-color: #fffafb;
+        }
+        .password-input:focus {
+            outline: none;
+            border-color: #ff66b2;
+            box-shadow: 0 0 15px rgba(255, 102, 178, 0.3);
+            transform: scale(1.02);
+        }
+        .submit-btn {
+            background: linear-gradient(to right, #ff66b2, #ff4da6);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 15px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 102, 178, 0.4);
+        }
+        .submit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 102, 178, 0.5);
+        }
+
+
+        .welcome-message {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #ffcce6, #ff99cc);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 101;
+            display: none;
+            width: 90%;
+            max-width: 500px;
+            border: 5px solid #ff66b2;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+        .welcome-message h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 32px;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        .welcome-message p {
+            color: white;
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+        .welcome-close-btn {
+            background-color: white;
+            color: #ff66b2;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 15px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .welcome-close-btn:hover { transform: scale(1.05); }
+
+
+        .header {
+            background: linear-gradient(to right, #ff66b2, #ff99cc);
+            padding: 25px;
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 { font-size: 36px; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); }
+        .header p { font-size: 18px; opacity: 0.9; }
+
+
+        .tabs {
+            display: flex;
+            background-color: #ffebf3;
+            overflow-x: auto;
+            z-index: 1;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        .tab {
+            padding: 18px 25px;
+            cursor: pointer;
+            background-color: #ffd9e6;
+            border-right: 1px solid #ffcce6;
+            flex: 1;
+            text-align: center;
+            transition: all 0.3s ease;
+            min-width: 150px;
+            font-weight: bold;
+        }
+        .tab:hover { background-color: #ffcce6; }
+        .tab.active {
+            background: linear-gradient(to bottom, #ff66b2, #ff4da6);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 102, 178, 0.4);
+        }
+
+
+        .content { padding: 35px; min-height: 500px; position: relative; z-index: 1; }
+        .tab-content { display: none; animation: fadeIn 0.5s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        .love-letter {
+            background-color: #fff5f8;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(255, 182, 193, 0.3);
+            text-align: center;
+            border: 2px solid #ffcce6;
+        }
+        .prompt {
+            margin-bottom: 25px;
+            font-size: 28px;
+            color: #ff66b2;
+            font-weight: bold;
+        }
+        .love-btn {
+            background: linear-gradient(to right, #ff66b2, #ff4da6);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 102, 178, 0.4);
+        }
+        .love-btn:hover { transform: scale(1.05); }
+
+
+        .message {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            border-left: 5px solid #ff66b2;
+            display: none;
+            animation: expand 0.5s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            line-height: 1.6;
+            font-size: 17px;
+        }
+        @keyframes expand {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 300px; }
+        }
+
+
+        /* 🎶 Cute Music Buttons */
+        .songs-list { list-style-type: none; }
+        .songs-list li {
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #fff5f8;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.2);
+            transition: transform 0.3s;
+        }
+        .songs-list li:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.3);
+        }
+        .song-btn {
+            background: linear-gradient(to right, #ff66b2, #ff4da6);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 5px 10px rgba(255, 102, 178, 0.3);
+        }
+        .song-btn:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 8px 20px rgba(255, 102, 178, 0.4);
+        }
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+.gallery-item {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  height: 180px;
+  cursor: pointer;
+}
+.gallery-item:hover { transform: translateY(-5px) rotate(2deg); box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15); }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+.gallery-item:hover img { transform: scale(1.1); }
+.gallery-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background-color: rgba(255, 102, 178, 0.85);
+  color: white;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* ✅ Lightbox Styles */
+.lightbox {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.lightbox.active { display: flex; }
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(255, 182, 193, 0.3);
+  transition: all 0.3s ease;
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+  position: absolute;
+  color: white;
+  font-size: 40px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  padding: 10px 15px;
+  transition: background 0.3s, transform 0.3s;
+  user-select: none;
+}
+.lightbox-close:hover,
+.lightbox-prev:hover,
+.lightbox-next:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.lightbox-close { top: 20px; right: 25px; font-size: 32px; }
+.lightbox-prev { left: 30px; }
+.lightbox-next { right: 30px; }
+@media (max-width: 600px) {
+  .lightbox-prev, .lightbox-next { font-size: 28px; padding: 8px 12px; }
+}
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #ffebf3;
+  color: #ff66b2;
+  font-weight: bold;
+}
+
+.notes-list { list-style-type: none; }
+        .notes-list li {
+            padding: 18px;
+            margin-bottom: 18px;
+            background-color: #fff5f8;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.2);
+            transition: transform 0.3s;
+        }
+        .notes-list li:hover { transform: translateX(5px); box-shadow: 0 8px 20px rgba(255, 182, 193, 0.3); }
+        .notes-list li:before {
+            content: "💖";
+            margin-right: 15px;
+            color: #ff66b2;
+            font-size: 22px;
+        }
+
+
+        .teddy-bear { position: absolute; z-index: 0; opacity: 0.08; pointer-events: none; font-size: 80px; }
+        .footer { text-align: center; padding: 20px; background-color: #ffebf3; color: #ff66b2; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<!-- ✅ Lightbox (added for gallery expand/next/prev) -->
+<div class="lightbox" id="lightbox">
+  <span class="lightbox-close" id="lightboxClose">&times;</span>
+  <span class="lightbox-prev" id="lightboxPrev">&#10094;</span>
+  <img src="" alt="Expanded photo" id="lightboxImg">
+  <span class="lightbox-next" id="lightboxNext">&#10095;</span>
+</div>
+
+<!-- 💖 Your existing website starts here -->
+<div class="welcome-screen" id="welcomeScreen">
+  <div class="password-form">
+    <h2>Hello pretty, what's the magic word? ❤️</h2>
+    <input type="password" class="password-input" id="passwordInput" placeholder="magic word here...">
+    <button class="submit-btn" id="submitBtn">Enter</button>
+  </div>
+</div>
+
+<div class="welcome-message" id="welcomeMessage">
+        <h2>HI MY FAV MALDITA</h2>
+        <p>I hope you enjoy your stay ✨</p>
+        <button class="welcome-close-btn" id="welcomeCloseBtn">Start Exploring</button>
+    </div>
+
+
+    <div class="container">
+        <div class="hearts-container" id="heartsContainer"></div>
+
+
+        <div class="teddy-bear" style="top: 50px; left: 30px;">🧸</div>
+        <div class="teddy-bear" style="bottom: 50px; right: 30px;">🧸</div>
+        <div class="teddy-bear" style="top: 150px; right: 100px;">🧸</div>
+        <div class="teddy-bear" style="bottom: 150px; left: 100px;">🧸</div>
+
+
+        <div class="header">
+            <h1>A little something for you</h1>
+            <p> you look pretty as usual 🥰</p>
+        </div>
+
+
+        <div class="tabs">
+            <div class="tab active" data-tab="love-letter">Love Zone 💌</div>
+            <div class="tab" data-tab="music">Music 🎵</div>
+            <div class="tab" data-tab="gallery">Gallery 🖼️</div>
+            <div class="tab" data-tab="notes">Notes 📝</div>
+        </div>
+
+
+        <div class="content">
+            <div class="tab-content active" id="love-letter">
+                <div class="love-letter">
+                    <div class="prompt">A letter for you 💕</div>
+                    <button class="love-btn" id="loveBtn">Read Me 💌</button>
+                    <div class="message" id="secretMessage">
+                       Hi daph, Idk if you’ll like this but I find this vv cute and you were the first person that came to my mind when I saw this so 😝. <br>
+                        <br>
+                        I just want to say na I really admire you, you’re of the strongest/bravest person that I know. I know were still at the early stage and that you are still scared na mag trust and to fully open up your heart to me but that’s okay, I understand it and I am willing to stay and wait no matter how long it takes because in my eyes this is all worth it, YOU are worth it. It is such a privilege having to meet someone like you; I thank God every day for making our paths cross. <br>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab-content" id="music">
+                <h2>Songs that remind me of you 🎶</h2>
+                <ul class="songs-list">
+                    <li>
+                        Hey There Delilah - Plain White T’s
+                        <button class="song-btn" data-src="music/song1.mp3"><i class="fas fa-play"></i></button>
+                    </li>
+                    <li>
+                        Good Intentions - RINI
+                        <button class="song-btn" data-src="music/song2.mp3"><i class="fas fa-play"></i></button>
+                    </li>
+                    <li>
+                        Focus on you - Vedo
+                        <button class="song-btn" data-src="music/song3.mp3"><i class="fas fa-play"></i></button>
+                    </li>
+                    <li>
+                        Invisible String- Taylor Swift
+                        <button class="song-btn" data-src="music/song4.mp3"><i class="fas fa-play"></i></button>
+                    </li>
+                </ul>
+                <audio id="musicPlayer" controls style="display:none;"></audio>
+            </div>
+
+
+            <div class="tab-content" id="gallery">
+                <h2>Our Own Space 📸</h2>
+                <div class="gallery">
+                    <div class="gallery-item"><img src="images/photo1.jpg" alt=""><div class="gallery-caption"></div></div>
+                    <div class="gallery-item"><img src="images/photo2.jpg" alt=""><div class="gallery-caption">Hike w u, puhon!!</div></div>
+                    <div class="gallery-item"><img src="images/photo3.jpg" alt=""><div class="gallery-caption">Idk why, but this picture reminds me of 😉</div></div>
+                    <div class="gallery-item"><img src="images/photo4.jpg" alt=""><div class="gallery-caption">Palakas ka pa boi 😎😎</div></div>
+                    <div class="gallery-item"><img src="images/photo5.jpg" alt=""><div class="gallery-caption">Can't wait to make handmade bouquets for u hzhz</div></div>
+                </div>
+            </div>
+
+
+            <div class="tab-content" id="notes">
+                <h2>Little Notes & Reminders 💌</h2>
+                <ul class="notes-list">
+                    <li>• Stay hydrated and eat on time!!</li>
+                    <li>• Take a breather, Good days will come 😉</li>
+                    <li>• Smile always, you’re the prettiest when you smile 😊 </li>
+                    <li>• I’m vvvv proud of you!! </li>
+                    <li>• Take care of yourself, please 😊</li>
+                </ul>
+            </div>
+        </div>
+
+
+<div class="footer">❤❤❤</div>
+
+<script>
+
+const tabs = document.querySelectorAll(".tab");
+const contents = document.querySelectorAll(".tab-content");
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    tabs.forEach(t => t.classList.remove("active"));
+    contents.forEach(c => c.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById(tab.dataset.tab).classList.add("active");
+  });
+});
+
+document.getElementById("loveBtn").addEventListener("click", () => {
+  const msg = document.getElementById("secretMessage");
+  msg.style.display = msg.style.display === "block" ? "none" : "block";
+});
+
+ const heartsContainer = document.getElementById("heartsContainer");
+        for (let i = 0; i < 20; i++) {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.textContent = "💖";
+            heart.style.top = Math.random() * 100 + "%";
+            heart.style.left = Math.random() * 100 + "%";
+            heart.style.animationDuration = 4 + Math.random() * 4 + "s";
+            heartsContainer.appendChild(heart);
+        }
+
+
+        const submitBtn = document.getElementById("submitBtn");
+        const passwordInput = document.getElementById("passwordInput");
+        const welcomeScreen = document.getElementById("welcomeScreen");
+        const welcomeMessage = document.getElementById("welcomeMessage");
+        const welcomeCloseBtn = document.getElementById("welcomeCloseBtn");
+
+
+        submitBtn.addEventListener("click", () => {
+            if (passwordInput.value.trim().toLowerCase() === "wowex") {
+                welcomeScreen.classList.add("hidden");
+                welcomeMessage.style.display = "block";
+            } else {
+                alert("Oops! Wrong magic word, princess 💔");
+            }
+        });
+        welcomeCloseBtn.addEventListener("click", () => { welcomeMessage.style.display = "none"; });
+
+
+        // 🎵 Cute music player buttons
+        const musicPlayer = document.getElementById("musicPlayer");
+        const songBtns = document.querySelectorAll(".song-btn");
+
+
+        songBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const isPlaying = btn.classList.contains("playing");
+                const src = btn.getAttribute("data-src");
+
+
+                songBtns.forEach(b => {
+                    b.classList.remove("playing");
+                    b.innerHTML = '<i class="fas fa-play"></i>';
+                });
+
+
+                if (!isPlaying) {
+                    musicPlayer.src = src;
+                    musicPlayer.play();
+                    btn.classList.add("playing");
+                    btn.innerHTML = '<i class="fas fa-pause"></i>';
+                    makeHeart(btn);
+                } else {
+                    musicPlayer.pause();
+                }
+            });
+        });
+
+
+        function makeHeart(btn) {
+            const heart = document.createElement("span");
+            heart.className = "floating-heart";
+            heart.innerHTML = "💖";
+            document.body.appendChild(heart);
+            const rect = btn.getBoundingClientRect();
+            heart.style.position = "absolute";
+            heart.style.left = rect.left + "px";
+            heart.style.top = rect.top + "px";
+            heart.style.animation = "floatUp 1s ease-out forwards";
+            setTimeout(() => heart.remove(), 1000);
+        }
+
+
+        const style = document.createElement("style");
+        style.innerHTML = `
+        .floating-heart {
+            position: absolute;
+            font-size: 20px;
+            color: #ff80b5;
+            animation: floatUp 1.2s ease-out forwards;
+            pointer-events: none;
+        }
+        @keyframes floatUp {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(-60px); opacity: 0; }
+        }`;
+        document.head.appendChild(style);
+
+/* ✅ Expandable Gallery with Next/Prev */
+const galleryItems = document.querySelectorAll('.gallery-item img');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxClose = document.getElementById('lightboxClose');
+const lightboxNext = document.getElementById('lightboxNext');
+const lightboxPrev = document.getElementById('lightboxPrev');
+
+let currentIndex = 0;
+
+function showImage(index) {
+  currentIndex = index;
+  lightboxImg.src = galleryItems[index].src;
+  lightbox.classList.add('active');
+}
+
+galleryItems.forEach((img, i) => {
+  img.addEventListener('click', () => showImage(i));
+});
+
+lightboxClose.addEventListener('click', () => lightbox.classList.remove('active'));
+
+lightboxNext.addEventListener('click', (e) => {
+  e.stopPropagation();
+  currentIndex = (currentIndex + 1) % galleryItems.length;
+  lightboxImg.src = galleryItems[currentIndex].src;
+});
+
+lightboxPrev.addEventListener('click', (e) => {
+  e.stopPropagation();
+  currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+  lightboxImg.src = galleryItems[currentIndex].src;
+});
+
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) lightbox.classList.remove('active');
+});
+
+document.addEventListener('keydown', (e) => {
+  if (!lightbox.classList.contains('active')) return;
+  if (e.key === 'ArrowRight') {
+    currentIndex = (currentIndex + 1) % galleryItems.length;
+    lightboxImg.src = galleryItems[currentIndex].src;
+  } else if (e.key === 'ArrowLeft') {
+    currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+    lightboxImg.src = galleryItems[currentIndex].src;
+  } else if (e.key === 'Escape') {
+    lightbox.classList.remove('active');
+  }
+});
+</script>
+</body>
+</html>
